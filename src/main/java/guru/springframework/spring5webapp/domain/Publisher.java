@@ -11,6 +11,7 @@ public class Publisher {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String name;
     private String addressLine1;
     private String city;
@@ -95,11 +96,11 @@ public class Publisher {
 
         Publisher publisher = (Publisher) o;
 
-        return id.equals(publisher.id);
+        return id != null ? id.equals(publisher.id) : publisher.id == null;
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return id != null ? id.hashCode() : 0;
     }
 }
