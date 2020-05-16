@@ -25,29 +25,44 @@ public class BootStrapData implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        System.out.println("Starting boostrap");
+
+        Publisher publisher = new Publisher();
+        publisher.setName("SFG Publishing");
+        publisher.setCity("St Petersburg");
+        publisher.setState("FL");
+
+        publisherRepository.save(publisher);
+
         Author eric = new Author("Eric", "Evans");
         Book ddd = new Book("Domain Driven Design", "1234");
+
         eric.getBooks().add(ddd);
         ddd.getAuthors().add(eric);
         authorRepository.save(eric);
         bookRepository.save(ddd);
+
         Author rod = new Author("Rod", "Johnson");
         Book noEJB = new Book("J2EE Development withoout EJB", "3434223");
+
         rod.getBooks().add(noEJB);
         noEJB.getAuthors().add(rod);
+
         authorRepository.save(rod);
         bookRepository.save(noEJB);
 
+        ddd.setPublisher(publisher);
+        publisher.getBooks().add(ddd);
 
-        Publisher testPublisher = new Publisher("Test Publisher", "Wojska Polskiego Street", "Zawiercie", "Slask", "AA11AA");
-        Publisher wornerBross = new Publisher("Wielki Wydawca z USA", "Freedom Street", "Los Angeles", "Alabama", "AA45AA");
-        publisherRepository.save(testPublisher);
-        publisherRepository.save(wornerBross);
+        noEJB.setPublisher(publisher);
+        publisher.getBooks().add(noEJB);
+
 
         System.out.println("Started in Boostrap");
         System.out.println("Number of Books: " + bookRepository.count());
         System.out.println("Number of Authors: " + authorRepository.count());
         System.out.println("Number of Publishers: " + publisherRepository.count());
+        System.out.println("Publisher Number of Books: " + publisher.getBooks().size());
 
     }
 }
