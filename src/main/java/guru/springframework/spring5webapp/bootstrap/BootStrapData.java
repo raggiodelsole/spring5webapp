@@ -32,15 +32,24 @@ public class BootStrapData implements CommandLineRunner {
         publisher.setCity("St Petersburg");
         publisher.setState("FL");
 
-        publisherRepository.save(publisher);
+        Publisher testPublisher = new Publisher();
+        testPublisher.setName("My test publisher");
+        testPublisher.setCity("Katowice");
+        testPublisher.setState("Slask");
 
         Author eric = new Author("Eric", "Evans");
         Book ddd = new Book("Domain Driven Design", "1234");
 
         eric.getBooks().add(ddd);
         ddd.getAuthors().add(eric);
+
+        testPublisher.getBooks().add(ddd);
+
         authorRepository.save(eric);
         bookRepository.save(ddd);
+        publisherRepository.save(testPublisher);
+        ddd.setPublisher(testPublisher);
+
 
         Author rod = new Author("Rod", "Johnson");
         Book noEJB = new Book("J2EE Development withoout EJB", "3434223");
@@ -48,15 +57,13 @@ public class BootStrapData implements CommandLineRunner {
         rod.getBooks().add(noEJB);
         noEJB.getAuthors().add(rod);
 
-        authorRepository.save(rod);
-        bookRepository.save(noEJB);
 
-        ddd.setPublisher(publisher);
-        publisher.getBooks().add(ddd);
-
-        noEJB.setPublisher(publisher);
         publisher.getBooks().add(noEJB);
 
+        authorRepository.save(rod);
+        bookRepository.save(noEJB);
+        publisherRepository.save(publisher);
+        noEJB.setPublisher(publisher);
 
         System.out.println("Started in Boostrap");
         System.out.println("Number of Books: " + bookRepository.count());
